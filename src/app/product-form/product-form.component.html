@@ -1,0 +1,72 @@
+<div class="card componentStyle">
+    <div class="card mt-3 mb-3" style="margin: auto;width: 800px;text-align: center;">
+        <div class="card-header">
+            Product Information
+        </div>
+        <div class="card-body row">
+            <div class="col-md-6 border-line">
+                <div class="col-md-12">
+                    <form #f="ngForm">
+                        <div class="form-group mb-3" style="text-align: left;">
+                            <label for="title">Title</label>
+                            <input placeholder="Title" #title="ngModel" [(ngModel)]="product.title" name="title"
+                                id="title" type="text" class="form-control" required>
+                            <div class="alert alert-danger" *ngIf="title.touched && title.invalid">
+                                Title is required.
+                            </div>
+                        </div>
+                        <div class="form-group mb-3" style="text-align: left;">
+                            <label for="price">Price</label>
+                            <div class="input-group">
+                                <span class="input-group-text">₹</span>
+                                <input placeholder="Price" #price="ngModel" [(ngModel)]="product.price" name="price"
+                                    id="price" type="number" class="form-control" required [min]="0">
+                            </div>
+                            <div class="alert alert-danger" *ngIf="price.touched && price.invalid">
+                                <div *ngIf="price.errors['required']">Price is required.</div>
+                                <div *ngIf="price.errors['min']">Price should be 0 or higher.</div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3" style="text-align: left;">
+                            <label for="category">Category</label>
+                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                #category="ngModel" [(ngModel)]="product.category" aria-placeholder="Category"
+                                name="category" id="category" class="form-control" required>
+                                <option *ngFor="let c of categories$ | async" [value]="c.key">
+                                    {{ c.name }}
+                                </option>
+                            </select>
+                            <div class="alert alert-danger" *ngIf="category.touched && category.invalid">
+                                Category is required.
+                            </div>
+                        </div>
+                        <div class="form-group mb-3" style="text-align: left;">
+                            <label for="imageUrl">Image URL</label>
+                            <input #imageUrl="ngModel" [(ngModel)]="product.imageUrl" name="imageUrl" id="imageUrl"
+                                type="text" class="form-control" required url placeholder="Image URL">
+                            <div class="alert alert-danger" *ngIf="imageUrl.touched && imageUrl.invalid">
+                                <div *ngIf="imageUrl.errors['required']">Image URL is required.</div>
+                                <div *ngIf="imageUrl.errors['url']">Please enter a valid URL.</div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <product-card [product]="product" [show-actions]="false"></product-card>
+            </div>
+        </div>
+        <div class="card-footer text-muted row" style="margin-right:0rem;margin-left: 0rem;">
+            <div class="col-md-6">
+                <button [disabled]="!f.valid" (click)="save(f.value)" style="float: right;"
+                    class="btn btn-primary">Save</button>
+            </div>
+            <div class="col-md-6">
+                <button *ngIf="id" type="button" (click)="delete()" style="float: left;"
+                    class="btn btn-danger ml-3">Delete</button>
+                <a routerLink="/manage-products" *ngIf="!id" style="float: left;" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+.border-line {
+    border-right: 3px solid rgb(17, 214, 188);
+}
+.spinner-border {
+    display: block;
+    position: fixed;
+    z-index: 1031; /* High z-index so it is on top of the page */
+    top: 50%;
+    right: 50%; /* or: left: 50%; */
+    opacity: 0.1;
+  }
